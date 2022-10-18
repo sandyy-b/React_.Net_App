@@ -4,8 +4,6 @@ namespace React_.Net_App.Services.Interfaces
 {
     public interface IUserService
     {
-        User CreateUser(User user);
-        IEnumerable<User> GetUsers();
-        User GetUserById(int Id);
+        IEnumerable<User> GetUsers(string queryText);  
     }
 }

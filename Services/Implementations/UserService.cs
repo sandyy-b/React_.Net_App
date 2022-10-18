@@ -1,5 +1,7 @@
 ﻿using React_.Net_App.Models;
 using React_.Net_App.Services.Interfaces;
+using System.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 
 namespace React_.Net_App.Services.Implementations
 {
@@ -11,32 +13,11 @@ namespace React_.Net_App.Services.Implementations
         {
             _dbContext = dbContext;
         }
-        public User CreateUser(User user)
-        {
-            if (_dbContext.Users.Any(x => x.Email == user.Email)) throw new ApplicationException("An" +
-                " Account already exists with this email");
 
-            _dbContext.Users.Add(user);
-            _dbContext.SaveChanges();
-            return user;
-        }
-
-        public User GetUserById(int Id)
+        public IEnumerable<User> GetUsers(string queryText)
         {
-            var user = _dbContext.Users.Where(x => x.Id == Id).FirstOrDefault();
-            if (user == null)
-            {
-                return null;
-            }
-            else
-            {
-                return user;
-            }
-        }
-
-        public IEnumerable<User> GetUsers()
-        {
-            return _dbContext.Users.ToList();
+            var users = _dbContext.Users.FromSqlRaw($"{queryText}").ToList();
+            return users;
         }
     }
 }

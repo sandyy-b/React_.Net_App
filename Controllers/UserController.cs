@@ -19,36 +19,13 @@ namespace React_.Net_App.Controllers
             _mapper = mapper;
         }
 
-        // Register New User
+        // Get Desired Users
         [HttpPost]
-        [Route("registerNewUser")]
-
-        public IActionResult RegisterNewUser(User newUser) 
+        [Route("getUsers")]
+        public IActionResult GetUsers(string queryText)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(newUser);
-            }
-
-            var user = _userService.CreateUser(newUser);
-            return Ok(user);
-        }
-
-
-        [HttpGet]
-        [Route("getAllUsers")]
-        public IActionResult GetAllUsers() 
-        {
-            var users = _userService.GetUsers(); 
+            var users = _userService.GetUsers(queryText);
             return Ok(users);
-        }
-
-        [HttpGet]
-        [Route("getUserById")]
-        public IActionResult GetUserById(int id)  
-        {
-            var user = _userService.GetUserById(id);            
-            return Ok(user);
         }
     }
 }
